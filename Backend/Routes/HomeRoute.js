@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const {homeResponse} = require("../Controllers/HomeController");
-const mongoose = require('mongoose')
+const { uploadResponse, sheetResponse } = require("../Controllers/HomeController");
+const multer = require("multer");
 
-router.use("/uploads",homeResponse);
-mongoUrl = 'mongodb://localhost:27017/uploads/';
+const upload = multer({ dest: "uploads/" });
 
-mongoose.connect(mongoUrl).then(()=>{console.log('connected to database')})
 
-module.exports = {
-    homeResponse:router
-}
+router.post("/upload", upload.single("file"), uploadResponse);
+router.post("/sheet", sheetResponse);
+
+
+module.exports = router;
